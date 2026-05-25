@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Blog · Musings</title>
+    <!-- Inter font & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /* 样式基本保持不变，仅调整 about-banner 去掉头像后的布局 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg, #f0f3f8 0%, #e9eef4 100%);
+            color: #1e2b3c;
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 20, 40, 0.25), inset 0 1px 2px rgba(255,255,255,0.6);
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .blog-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .blog-title h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1f2b38, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.2rem;
+        }
+
+        .blog-title p {
+            color: #4a5f73;
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .blog-nav {
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(255,255,255,0.4);
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .blog-nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .blog-nav a:hover {
+            color: #2563eb;
+        }
+
+        .featured-post {
+            background: rgba(255,255,255,0.5);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1);
+        }
+
+        .featured-tag {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.15);
+            color: #1e3a6b;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .featured-post h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e2a3a;
+        }
+
+        .featured-post p {
+            color: #3b4e62;
+            max-width: 80%;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .read-more:hover {
+            border-bottom-color: #2563eb;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1.5rem;
+            color: #1e2a3a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .blog-card {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 12px -6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            background: white;
+            border-color: #b9cbff;
+            box-shadow: 0 15px 25px -12px rgba(37, 99, 235, 0.2);
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #4b6a92;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .blog-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #1e2a3a;
+        }
+
+        .blog-card p {
+            color: #3b4e62;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #5f748b;
+        }
+
+        .card-meta i {
+            margin-right: 0.3rem;
+            color: #3b82f6;
+        }
+
+        /* 重新设计的 about 区域：无头像，仅文本和社交链接 */
+        .about-banner {
+            margin: 3rem 0 2rem;
+            background: rgba(255,255,255,0.4);
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        .about-text p {
+            color: #3b4e62;
+            max-width: 700px;
+            margin: 0;
+        }
+
+        .about-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .about-social a {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            transition: color 0.2s;
+        }
+        .about-social a:hover { color: #2563eb; }
+
+        .blog-footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #5e6f88;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.3);
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
+        .blog-footer span i {
+            margin-right: 6px;
+            color: #2563eb;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 1.5rem; }
+            .blog-header { flex-direction: column; align-items: start; gap: 1rem; }
+            .featured-post p { max-width: 100%; }
+            .about-banner { flex-direction: column; align-items: flex-start; }
+            .about-social { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Blog header -->
+        <div class="blog-header">
+            <div class="blog-title">
+                <h1>📝 Musings Notebook</h1>
+                <p><i class="fa-regular fa-pen-to-square"></i> Thoughts & Discoveries</p>
+            </div>
+            <div class="blog-nav">
+                <a href="#">Home</a>
+                <a href="#">Articles</a>
+                <a href="#">About</a>
+                <a href="#">Search</a>
+            </div>
+        </div>
+
+        <!-- Featured post -->
+        <div class="featured-post">
+            <span class="featured-tag"><i class="fa-regular fa-star"></i> Featured</span>
+            <h2>Building a Personal Blog from Scratch</h2>
+            <p>Create a frosted-glass style blog page with simple HTML and CSS, no complex frameworks needed. This article guides you step by step to achieve an elegant reading space.</p>
+            <a href="#" class="read-more">Read more <i class="fa-regular fa-arrow-right"></i></a>
+        </div>
+
+        <!-- Latest posts -->
+        <div class="section-title">
+            <i class="fa-regular fa-clock"></i> Latest Posts
+        </div>
+        <div class="blog-grid">
+            <!-- Card 1 -->
+            <article class="blog-card">
+                <div class="card-category"><i class="fa-regular fa-folder"></i> Tech</div>
+                <h3>Exploring New CSS Features</h3>
+                <p>Recently CSS has added many practical features, such as the :has() selector, subgrid, and more. This article takes you through examples to get started quickly.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 2026-03-15</span>
+                    <span><i class="fa-regular fa-comment"></i> 8 comments</span>
+                </div>
+            </article>
+            <!-- Card 2 -->
+            <article class="blog-card">
+                <div class="card-category"><i class="fa-regular fa-folder"></i> Reflections</div>
+                <h3>The Age of Information Anxiety</h3>
+                <p>We receive a huge amount of information every day. How to stay focused? Sharing my information filtering methods and tool list.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 2026-03-05</span>
+                    <span><i class="fa-regular fa-comment"></i> 5 comments</span>
+                </div>
+            </article>
+            <!-- Card 3 -->
+            <article class="blog-card">
+                <div class="card-category"><i class="fa-regular fa-folder"></i> Open Source</div>
+                <h3>My First PR Got Merged</h3>
+                <p>Documenting the entire process of participating in an open source project: from discovering an issue to submitting code, and communicating with maintainers.</p>
+                <div class="card-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 2026-02-28</span>
+                    <span><i class="fa-regular fa-comment"></i> 3 comments</span>
+                </div>
+            </article>
+        </div>
+
+        <!-- About section (no avatar) -->
+        <div class="about-banner">
+            <div class="about-text">
+                <p>Full-stack developer & photography enthusiast. I enjoy experimenting with various tools and frameworks. This is my space for recording thoughts and sharing daily life. Feel free to reach out!</p>
+            </div>
+            <div class="about-social">
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="blog-footer">
+            <span><i class="fa-regular fa-copyright"></i> 2026 Musings Notebook</span>
+            <span><i class="fa-regular fa-rss"></i> RSS Feed</span>
+        </div>
+    </div>
+</body>
+</html>
